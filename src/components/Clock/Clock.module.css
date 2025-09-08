@@ -1,0 +1,22 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.clockContainer{
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 30px 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+.hora{
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
