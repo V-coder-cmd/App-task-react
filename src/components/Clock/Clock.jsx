@@ -15,8 +15,7 @@ export default function Clock(){
 
   return (
     <div className={styles.clockContainer}>
-        <h1>Componente React</h1>
-        <h2 className={styles.hora}>{date.toLocaleDateString()} {date.toLocaleTimeString} </h2>
+        <h2 className={styles.hora}>{date.toLocaleDateString()} {date.toLocaleTimeString()}</h2>
     </div>
 
   );
