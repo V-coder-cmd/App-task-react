@@ -3,7 +3,7 @@
     padding: 20px;
     background-color: blueviolet;
     color: white;
-    border-radius: 12px;
+    border-radius: 0 0 12px 12px;
     margin-bottom: 20px;
 }
 
