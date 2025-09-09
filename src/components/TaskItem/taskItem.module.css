@@ -1,0 +1,107 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #fafafa;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: background-color 0.2s;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Texto da tarefa */
+.text {
+  font-size: 1.9rem;
+  cursor: default;
+  word-break: break-word;
+}
+
+.completed .text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Input de edição */
+.editInput {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+}
+
+.editInput:focus {
+  border-color: #4cafef;
+}
+
+/* Comentário */
+.comment {
+  font-size: 1.9rem;
+  color: #555;
+  background: #f1f1f1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+/* Ações (botões) */
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+/* Estilo base dos botões */
+.editBtn,
+.saveBtn,
+.deleteBtn,
+.statusBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.editBtn:hover {
+  background-color: #e0f7fa;
+}
+
+.saveBtn:hover {
+  background-color: #e8f5e9;
+}
+
+.deleteBtn:hover {
+  background-color: #ffebee;
+}
+
+/* Botões de status */
+.statusBtn {
+  font-weight: bold;
+  color: #fff;
+}
+
+.pending {
+  background-color: #ff9800;
+}
+
+.pending:hover {
+  background-color: #e68900;
+}
+
+.done {
+  background-color: #4caf50;
+}
+
+.done:hover {
+  background-color: #3d8b40;
+}

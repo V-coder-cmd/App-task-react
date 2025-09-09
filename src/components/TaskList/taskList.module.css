@@ -1,50 +1,24 @@
-.taskList {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
-  border-radius: 12px;
-  background: #fdfdfd;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.empty {
-  text-align: center;
-  color: #777;
-  font-style: italic;
-}
-
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 .item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 6px;
   background: #fafafa;
   padding: 12px 15px;
   border-radius: 8px;
   margin-bottom: 12px;
   transition: background-color 0.2s;
+  align-items: center;
 }
 
 .item:hover {
   background-color: #f0f0f0;
 }
 
+/* Texto da tarefa */
 .text {
-  flex: 1;
-  cursor: pointer;
   font-size: 1rem;
+  cursor: default;
+  word-break: break-word;
 }
 
 .completed .text {
@@ -52,26 +26,40 @@
   color: #888;
 }
 
+/* Input para editar tarefa ou comentário */
 .editInput {
-  flex: 1;
   padding: 6px 10px;
   font-size: 1rem;
   border: 2px solid #ccc;
   border-radius: 6px;
   outline: none;
+  width: 100%;
 }
 
 .editInput:focus {
   border-color: #4cafef;
 }
 
+/* Comentário */
+.comment {
+  font-size: 0.9rem;
+  color: #555;
+  background: #f1f1f1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+/* Ações */
 .actions {
   display: flex;
   gap: 8px;
-  margin-left: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
 }
 
-/* Botões */
+/* Botões base */
 .editBtn,
 .saveBtn,
 .deleteBtn,
@@ -79,7 +67,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 6px 10px;
   border-radius: 6px;
   transition: background-color 0.2s, transform 0.1s;
@@ -97,7 +85,7 @@
   background-color: #ffebee;
 }
 
-/* Botão de status */
+/* Botão de status (pendente/concluída) */
 .statusBtn {
   font-weight: bold;
   color: #fff;

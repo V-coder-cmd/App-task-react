@@ -1,126 +1,89 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import TaskInput from "../TaskInput/TaskInput.jsx";
+import TaskItem from "../TaskItem/TaskItem.jsx";
 import styles from "./TaskList.module.css";
 
 export default function TaskList() {
+  const [tasks, setTasks] = useState([]);
 
-    // literalmente o começo de tudo
-  const [tasks, setTasks] = useState(() => {
-    const storedTasks = localStorage.getItem("tasks");
-    return storedTasks ? JSON.parse(storedTasks) : [];
-  });
-
-  const [editingId, setEditingId] = useState(null);
-  const [editingText, setEditingText] = useState("");
-
-//   TRANSFORMA OS OBJETOS EM STRING
+  // 🔹 Carregar do localStorage (só 1x no início)
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const stored = localStorage.getItem("tasks");
+    if (stored) {
+      setTasks(JSON.parse(stored));
+    }
+  }, []);
+
+  // 🔹 Salvar sempre que tasks mudar
+  useEffect(() => {
+    if (tasks.length > 0) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    } else {
+      localStorage.removeItem("tasks"); // se zerar, limpa
+    }
   }, [tasks]);
 
-//   ADICIONE UMA TAREFA NOVA
-  const addTask = useCallback((text) => {
-    if (!text.trim()) return;
-
-
-    // SETA OS OBJETOS DA TEREFA ADICIONADA
-    setTasks((prev) => [
-      ...prev,
-      { id: Date.now(), text, completed: false },
-    ]);
-  }, []);
-
-//   VERIFICAÇÃO PRA VER SE A TAREFA ESTÁ COMPLETADA OU NÃO
-  const toggleTask = useCallback((id) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-    setEditingId(null); 
-  }, []);
-
-
-//   REMOVE UMA TAREFA
-  const removeTask = useCallback((id) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
-  }, []);
-
-//   COMEÇO DA EDIÇÃO DE UMA TAREFA
-  const startEditing = (id, currentText) => {
-    setEditingId(id);
-    setEditingText(currentText);
+  // Adicionar
+  const addTask = (text) => {
+    const newTask = {
+      id: Date.now(),
+      text,
+      completed: false,
+      comment: "",
+    };
+    setTasks((prev) => [...prev, newTask]);
   };
 
-//   SALVA A TAREFA EDITADA
-  const saveEditing = (id) => {
-    if (!editingText.trim()) return
-
-    // DEIXA O TEXTO NOVO COMO PADRÃO
+  // Alternar concluída/pendente
+  const toggleTask = (id) => {
     setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id ? { ...task, text: editingText } : task
+      prev.map((t) =>
+        t.id === id ? { ...t, completed: !t.completed } : t
       )
     );
+  };
 
-    setEditingId(null);
-    setEditingText("");
+  // Editar texto
+  const editTask = (id, newText) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, text: newText } : t))
+    );
+  };
+
+  // Editar comentário
+  const editComment = (id, newComment) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, comment: newComment } : t))
+    );
+  };
+
+  // Remover
+  const removeTask = (id) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
   return (
-  <section className={styles.taskList}>
-    <h2 className={styles.title}>📋 Minhas Tarefas</h2>
+    <section className={styles.taskList}>
+      <h2 className={styles.title}>📋 Minhas Tarefas</h2>
 
-    <TaskInput addTask={addTask} />
+      <TaskInput addTask={addTask} />
 
-    {tasks.length === 0 ? (
-      <p className={styles.empty}>Nenhuma tarefa adicionada ainda.</p>
-    ) : (
-      <ul className={styles.list}>
-        {tasks.map(({ id, text, completed }) => (
-          <li key={id} className={`${styles.item} ${completed ? styles.completed : ""}`}>
-            {editingId === id ? (
-              <input
-                className={styles.editInput}
-                type="text"
-                value={editingText}
-                onChange={(e) => setEditingText(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && saveEditing(id)}
-                autoFocus
-              />
-            ) : (
-              <span className={styles.text}>{text}</span>
-            )}
-
-            <div className={styles.actions}>
-              <button
-                className={`${styles.statusBtn} ${completed ? styles.done : styles.pending}`}
-                onClick={() => toggleTask(id)}
-              >
-                {completed ? "✅ Concluída" : "⏳ Pendente"}
-              </button>
-
-              {!completed && editingId !== id && (
-                <button className={styles.editBtn} onClick={() => startEditing(id, text)}>
-                  ✏️
-                </button>
-              )}
-
-              {editingId === id && (
-                <button className={styles.saveBtn} onClick={() => saveEditing(id)}>
-                  💾
-                </button>
-              )}
-
-              <button className={styles.deleteBtn} onClick={() => removeTask(id)}>
-                ❌
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    )}
-  </section>
-
+      {tasks.length === 0 ? (
+        <p className={styles.empty}>Nenhuma tarefa adicionada ainda.</p>
+      ) : (
+        <ul className={styles.list}>
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              toggleTask={toggleTask}
+              editTask={editTask}
+              editComment={editComment}
+              removeTask={removeTask}
+            />
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
