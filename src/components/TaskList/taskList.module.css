@@ -14,7 +14,6 @@
   background-color: #f0f0f0;
 }
 
-/* Texto da tarefa */
 .text {
   font-size: 1rem;
   cursor: default;
@@ -26,32 +25,10 @@
   color: #888;
 }
 
-/* Input para editar tarefa ou comentário */
-.editInput {
-  padding: 6px 10px;
-  font-size: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  width: 100%;
-}
-
 .editInput:focus {
   border-color: #4cafef;
 }
 
-/* Comentário */
-.comment {
-  font-size: 0.9rem;
-  color: #555;
-  background: #f1f1f1;
-  padding: 6px 8px;
-  border-radius: 6px;
-  margin-top: 4px;
-  word-break: break-word;
-}
-
-/* Ações */
 .actions {
   display: flex;
   gap: 8px;
@@ -59,7 +36,10 @@
   flex-wrap: wrap;
 }
 
-/* Botões base */
+.taskList{
+  text-align: center;
+}
+
 .editBtn,
 .saveBtn,
 .deleteBtn,
@@ -85,7 +65,7 @@
   background-color: #ffebee;
 }
 
-/* Botão de status (pendente/concluída) */
+
 .statusBtn {
   font-weight: bold;
   color: #fff;

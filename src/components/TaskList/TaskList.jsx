@@ -1,40 +1,38 @@
-import { useState, useEffect } from "react";
-import TaskInput from "../TaskInput/TaskInput.jsx";
-import TaskItem from "../TaskItem/TaskItem.jsx";
-import styles from "./TaskList.module.css";
+  import { useState, useEffect } from "react";
+  import TaskInput from "../TaskInput/TaskInput.jsx";
+  import TaskItem from "../TaskItem/TaskItem.jsx";
+  import styles from "./TaskList.module.css";
 
-export default function TaskList() {
-  const [tasks, setTasks] = useState([]);
+  export default function TaskList() {
+    const [tasks, setTasks] = useState([]);
 
-  // 🔹 Carregar do localStorage (só 1x no início)
-  useEffect(() => {
-    const stored = localStorage.getItem("tasks");
-    if (stored) {
-      setTasks(JSON.parse(stored));
-    }
-  }, []);
 
-  // 🔹 Salvar sempre que tasks mudar
-  useEffect(() => {
-    if (tasks.length > 0) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    } else {
-      localStorage.removeItem("tasks"); // se zerar, limpa
-    }
-  }, [tasks]);
+    useEffect(() => {
+      const stored = localStorage.getItem("tasks");
+      if (stored) {
+        setTasks(JSON.parse(stored));
+      }
+    }, []);
 
-  // Adicionar
-  const addTask = (text) => {
-    const newTask = {
-      id: Date.now(),
-      text,
-      completed: false,
-      comment: "",
+    useEffect(() => {
+      if (tasks.length > 0) {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      } else {
+        localStorage.removeItem("tasks"); 
+      }
+    }, [tasks]);
+
+
+    const addTask = (text) => {
+      const newTask = {
+        id: Date.now(),
+        text,
+        completed: false
+      };
+      setTasks((prev) => [...prev, newTask]);
     };
-    setTasks((prev) => [...prev, newTask]);
-  };
 
-  // Alternar concluída/pendente
+
   const toggleTask = (id) => {
     setTasks((prev) =>
       prev.map((t) =>
@@ -43,21 +41,15 @@ export default function TaskList() {
     );
   };
 
-  // Editar texto
+
   const editTask = (id, newText) => {
     setTasks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, text: newText } : t))
     );
   };
 
-  // Editar comentário
-  const editComment = (id, newComment) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, comment: newComment } : t))
-    );
-  };
 
-  // Remover
+
   const removeTask = (id) => {
     setTasks((prev) => prev.filter((t) => t.id !== id));
   };
@@ -78,7 +70,6 @@ export default function TaskList() {
               task={task}
               toggleTask={toggleTask}
               editTask={editTask}
-              editComment={editComment}
               removeTask={removeTask}
             />
           ))}
